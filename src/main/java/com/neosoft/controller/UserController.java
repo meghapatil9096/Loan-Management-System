@@ -1,5 +1,6 @@
 package com.neosoft.controller;
 
+import com.neosoft.dto.LoginRequest;
 import com.neosoft.dto.SignupRequest;
 import com.neosoft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,10 @@ public class UserController {
     @PostMapping("/signup")
     String registerUser(@RequestBody SignupRequest request){
         return userService.registerUser(request);
+    }
+
+    @PostMapping("/login")
+    String login(@RequestBody LoginRequest request){
+        return userService.login(request);
     }
 }

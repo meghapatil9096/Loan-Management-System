@@ -5,7 +5,8 @@ import com.neosoft.dto.SignupRequest;
 
 public interface UserService {
 
+//    SignUp Method
     String registerUser(SignupRequest signupRequest);
-
-
+//    Login Method
+    String login(LoginRequest request);
 }
