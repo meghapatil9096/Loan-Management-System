@@ -1,9 +1,12 @@
 package com.neosoft.controller;
 
-import com.neosoft.dto.LoginRequest;
-import com.neosoft.dto.SignupRequest;
+import com.neosoft.dto.LoginDTO;
+import com.neosoft.dto.SignupDTO;
 import com.neosoft.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +20,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/signup")
-    String registerUser(@RequestBody SignupRequest request){
+    String registerUser(@Valid @RequestBody SignupDTO request){
         return userService.registerUser(request);
     }
 
     @PostMapping("/login")
-    String login(@RequestBody LoginRequest request){
-        return userService.login(request);
+    ResponseEntity<String> login(@Valid @RequestBody LoginDTO request){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
     }
 }
