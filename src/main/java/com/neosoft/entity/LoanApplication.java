@@ -1,10 +1,14 @@
 package com.neosoft.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "loan-application")
@@ -31,7 +35,9 @@ public class LoanApplication {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private LocalDateTime appliedDate;
+    @Setter(AccessLevel.NONE)
+    private String appliedDate;
+
 
     public enum Status{
         PENDING,
@@ -39,6 +45,11 @@ public class LoanApplication {
         REJECTED
     }
 
+//    use this method to set the date and time in correct format
+    public void setAppliedDate(LocalDateTime dateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        this.appliedDate = dateTime.format(formatter);
+    }
 
 
 }
