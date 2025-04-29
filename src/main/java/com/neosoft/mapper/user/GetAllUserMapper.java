@@ -2,10 +2,11 @@ package com.neosoft.mapper.user;
 
 import com.neosoft.dto.user.GetAllUserDTO;
 import com.neosoft.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class GetAllUserMapper {
 
     public  static GetAllUserDTO toResponse(User user)

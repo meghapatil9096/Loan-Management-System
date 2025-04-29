@@ -2,10 +2,11 @@ package com.neosoft.mapper.loan_type;
 
 import com.neosoft.dto.loan_type.GetAllLoanTypeDTO;
 import com.neosoft.entity.LoanType;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class GetAllLoanTypeMapper {
 
     public static GetAllLoanTypeDTO toResponse(LoanType type){
