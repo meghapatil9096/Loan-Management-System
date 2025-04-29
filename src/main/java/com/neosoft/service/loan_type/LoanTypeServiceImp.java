@@ -42,5 +42,15 @@ public class LoanTypeServiceImp implements LoanTypeService {
         return GetAllLoanTypeMapper.toResponseList(types);
     }
 
+    @Override
+    public LoanType updatetype(Long id, LoanTypeDTO typeDTO) {
+
+        LoanType existingLoanType = loanTypeRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Loan-Type is not found with id: "+id));
+        UpdateTypeMapper.updateTypeForDTO(typeDTO,existingLoanType);
+
+        return loanTypeRepository.save(existingLoanType);
+    }
+
 
 }

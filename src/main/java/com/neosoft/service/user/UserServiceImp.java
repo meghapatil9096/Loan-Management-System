@@ -3,11 +3,14 @@ package com.neosoft.service.user;
 import com.neosoft.dto.user.GetAllUserDTO;
 import com.neosoft.dto.user.LoginDTO;
 import com.neosoft.dto.user.SignupDTO;
+import com.neosoft.dto.user.UpdateUserDTO;
 import com.neosoft.entity.User;
 import com.neosoft.exception.UserNotFoundException;
 import com.neosoft.mapper.user.GetAllUserMapper;
 import com.neosoft.mapper.user.SignupMapper;
+import com.neosoft.mapper.user.UpdateMapper;
 import com.neosoft.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +61,14 @@ public class UserServiceImp implements UserService {
         return GetAllUserMapper.toResponseList(userList);
     }
 
+    @Override
+    public User updateUser(Long id, UpdateUserDTO updateDTO) {
 
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("User not found with id:"+ id));
+        UpdateMapper.updateUserFromDTO(updateDTO, existingUser);
+        return userRepository.save(existingUser);
+    }
 
 
 }

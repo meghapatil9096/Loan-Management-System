@@ -2,6 +2,7 @@ package com.neosoft.controller.loan_application;
 
 import com.neosoft.dto.loan_application.ApplyLoanDTO;
 import com.neosoft.dto.loan_application.GetAllLoanAppDTO;
+import com.neosoft.dto.loan_application.UpdateAppDTO;
 import com.neosoft.entity.LoanApplication;
 import com.neosoft.service.loan_application.LoanApplicationService;
 import jakarta.validation.Valid;
@@ -32,4 +33,9 @@ public class LoanApplicationController {
         return ResponseEntity.ok(loanApplicationService.getAllLoanApp());
     }
 
+    @PutMapping("/admin/update/{id}")
+    ResponseEntity<?> updateLoanApp(@PathVariable Long id,@RequestBody @Valid UpdateAppDTO dto){
+        LoanApplication updated = loanApplicationService.updateLoanApp(id,dto);
+        return ResponseEntity.ok(updated);
+    }
 }

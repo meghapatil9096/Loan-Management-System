@@ -34,5 +34,10 @@ public class LoanTypeController {
         return ResponseEntity.ok(loanTypeService.getAllLoanType());
     }
 
+//    update loan-type
+    @PutMapping("/update/{id}")
+    ResponseEntity<LoanType> updatetype(@PathVariable Long id, @RequestBody @Valid LoanTypeDTO typeDTO){
+       return ResponseEntity.ok(loanTypeService.updatetype(id,typeDTO));
+    }
 
 }

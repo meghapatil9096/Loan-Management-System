@@ -17,5 +17,6 @@ public interface LoanTypeService {
 //    get all loan-type
     List<GetAllLoanTypeDTO> getAllLoanType();
 
-
+//  update loan-type
+    LoanType updatetype(Long id, LoanTypeDTO typeDTO);
 }

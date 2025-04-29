@@ -19,5 +19,7 @@ public interface UserService {
 //    Get All User (Admin)
     List<GetAllUserDTO> getAllUsers();
 
+//    update user for customer
+    User updateUser(Long id, UpdateUserDTO updateDTO);
 
 }
