@@ -1,4 +1,4 @@
-package com.neosoft.dto;
+package com.neosoft.dto.loan_type;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

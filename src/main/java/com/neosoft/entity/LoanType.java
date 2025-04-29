@@ -8,7 +8,7 @@ import lombok.ToString;
 @Table(name = "loan-type")
 @Data
 @ToString
-public class LoanType {
+public class LoanType<S> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

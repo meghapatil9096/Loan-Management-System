@@ -1,7 +1,7 @@
-package com.neosoft.service;
+package com.neosoft.service.loan_application;
 
-import com.neosoft.dto.ApplyLoanDTO;
-import com.neosoft.dto.GetAllLoanAppDTO;
+import com.neosoft.dto.loan_application.ApplyLoanDTO;
+import com.neosoft.dto.loan_application.GetAllLoanAppDTO;
 import com.neosoft.entity.LoanApplication;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface LoanApplicationService {
 
     List<LoanApplication> showStatus(String status);
 
-    List<GetAllLoanAppDTO> getAllLoanApplications();
+    List<GetAllLoanAppDTO> getAllLoanApp();
 }

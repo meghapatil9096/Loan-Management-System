@@ -1,31 +1,32 @@
-package com.neosoft.service;
+package com.neosoft.service.loan_application;
 
-import com.neosoft.dto.ApplyLoanDTO;
-import com.neosoft.dto.GetAllLoanAppDTO;
+import com.neosoft.dto.loan_application.ApplyLoanDTO;
+import com.neosoft.dto.loan_application.GetAllLoanAppDTO;
 import com.neosoft.entity.LoanApplication;
 import com.neosoft.entity.LoanType;
 import com.neosoft.entity.User;
-import com.neosoft.mapper.LoanApplicationMapper;
+import com.neosoft.mapper.loan_application.GetAllLoanAppMapper;
 import com.neosoft.repository.LoanApplicationRepository;
 import com.neosoft.repository.LoanTypeRepository;
 import com.neosoft.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class LoanApplicationServiceImp implements LoanApplicationService{
+@RequiredArgsConstructor
+public class LoanApplicationServiceImp implements LoanApplicationService {
 
-    @Autowired
-    private LoanApplicationRepository loanApplicationRepository;
+   // @Autowired
+    private final LoanApplicationRepository loanApplicationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    //@Autowired
+    private final UserRepository userRepository;
 
-    @Autowired
-    private LoanTypeRepository loanTypeRepository;
+    // @Autowired
+    private final LoanTypeRepository loanTypeRepository;
 
     @Override
     public String applyLoan(ApplyLoanDTO applyLoanDTO) {
@@ -55,10 +56,10 @@ public class LoanApplicationServiceImp implements LoanApplicationService{
     }
 
     @Override
-    public List<GetAllLoanAppDTO> getAllLoanApplications() {
+    public List<GetAllLoanAppDTO> getAllLoanApp() {
         List<LoanApplication> applications = loanApplicationRepository.findAll();
 
-        return LoanApplicationMapper.toResponseList(applications);
+        return GetAllLoanAppMapper.toResponseList(applications);
     }
 
 }

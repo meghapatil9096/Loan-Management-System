@@ -1,4 +1,4 @@
-package com.neosoft.dto;
+package com.neosoft.dto.user;
 
 import com.neosoft.entity.User;
 import jakarta.validation.constraints.Email;
@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class SignupDTO {
 
-    private int id;
+    private Long id;
 
     @NotBlank(message = "Name is required")
     private String name;

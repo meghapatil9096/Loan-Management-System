@@ -1,12 +1,12 @@
-package com.neosoft.mapper;
+package com.neosoft.mapper.loan_application;
 
-import com.neosoft.dto.GetAllLoanAppDTO;
+import com.neosoft.dto.loan_application.GetAllLoanAppDTO;
 import com.neosoft.entity.LoanApplication;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LoanApplicationMapper {
+public class GetAllLoanAppMapper {
 
     public  static GetAllLoanAppDTO toResponse(LoanApplication application){
         GetAllLoanAppDTO dto = new GetAllLoanAppDTO();
@@ -21,7 +21,7 @@ public class LoanApplicationMapper {
 
     public static List<GetAllLoanAppDTO> toResponseList(List<LoanApplication> applications){
         return applications.stream()
-                .map(LoanApplicationMapper::toResponse)
+                .map(GetAllLoanAppMapper::toResponse)
                 .collect(Collectors.toList());
     }
 }
