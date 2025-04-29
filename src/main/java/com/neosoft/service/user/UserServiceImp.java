@@ -3,14 +3,11 @@ package com.neosoft.service.user;
 import com.neosoft.dto.user.GetAllUserDTO;
 import com.neosoft.dto.user.LoginDTO;
 import com.neosoft.dto.user.SignupDTO;
-import com.neosoft.dto.user.UpdateUserDTO;
 import com.neosoft.entity.User;
 import com.neosoft.exception.UserNotFoundException;
 import com.neosoft.mapper.user.GetAllUserMapper;
-import com.neosoft.mapper.user.UpdateMapper;
-import com.neosoft.mapper.user.UserSignupMapper;
+import com.neosoft.mapper.user.SignupMapper;
 import com.neosoft.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,7 @@ public class UserServiceImp implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserSignupMapper userSignupMapper;
+    private SignupMapper mapper;
 
     @Override
     public String registerUser(SignupDTO request) {
@@ -33,7 +30,7 @@ public class UserServiceImp implements UserService {
             throw new RuntimeException("");
         }
 
-        User user = userSignupMapper.sigupRequestDtoToUser(request);
+        User user = mapper.sigupRequestDtoToUser(request);
 
         userRepository.save(user);
         return "User Registered Successfully!";

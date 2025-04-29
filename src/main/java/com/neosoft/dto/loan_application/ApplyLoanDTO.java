@@ -1,4 +1,4 @@
-package com.neosoft.dto;
+package com.neosoft.dto.loan_application;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
