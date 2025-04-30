@@ -15,7 +15,7 @@ public interface LoanTypeService {
     List<LoanType> getByLoanTypeName(String name);
 
 //    get all loan-type
-    List<GetAllLoanTypeDTO> getAllLoanType();
+    List<GetAllLoanTypeDTO> getAllLoanType(int pageNo,int pageSize,String sortBy,String sortDir);
 
 //  update loan-type
     LoanType updatetype(Long id, LoanTypeDTO typeDTO);

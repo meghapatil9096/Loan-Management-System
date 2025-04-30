@@ -4,8 +4,6 @@ import com.neosoft.dto.user.GetAllUserDTO;
 import com.neosoft.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
 @Component
 public class GetAllUserMapper {
 
@@ -19,9 +17,4 @@ public class GetAllUserMapper {
         return dto;
     }
 
-    public  static List<GetAllUserDTO> toResponseList(List<User> users){
-        return  users.stream()
-                .map(GetAllUserMapper::toResponse)
-                .collect(Collectors.toList());
-    }
 }

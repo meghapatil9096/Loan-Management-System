@@ -4,8 +4,6 @@ import com.neosoft.dto.loan_type.GetAllLoanTypeDTO;
 import com.neosoft.entity.LoanType;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
 @Component
 public class GetAllLoanTypeMapper {
 
@@ -20,9 +18,4 @@ public class GetAllLoanTypeMapper {
         return dto;
     }
 
-    public static List<GetAllLoanTypeDTO> toResponseList(List<LoanType> types){
-        return types.stream()
-                .map(GetAllLoanTypeMapper::toResponse)
-                .collect(Collectors.toList());
-    }
 }

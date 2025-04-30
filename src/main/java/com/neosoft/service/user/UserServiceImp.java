@@ -12,6 +12,9 @@ import com.neosoft.mapper.user.UpdateMapper;
 import com.neosoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +25,10 @@ public class UserServiceImp implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
+//    @Autowired
     private SignupMapper mapper;
 
+//    signup user
     @Override
     public String registerUser(SignupDTO request) {
 //  check if email exists
@@ -39,28 +43,35 @@ public class UserServiceImp implements UserService {
         return "User Registered Successfully!";
     }
 
+//    login user
     @Override
     public String login(LoginDTO request) {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND));
             //simple password check
-            if (user.getPassword().equals(request.getPassword()))
+            if (!user.getPassword().equals(request.getPassword()))
             {
+                throw new IllegalArgumentException("Invalid credential : Incorrect Password!");
+            }
                 return "Login Successfully!";
-            }
-            else {
-                return "Incorrect Password!";
-            }
 
     }
 
+//    get all user with paging And Sorting
     @Override
-    public List<GetAllUserDTO> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-        return GetAllUserMapper.toResponseList(userList);
+    public List<GetAllUserDTO> getAllUsers(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc")?Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize,Sort.by(direction,sortBy));
+        Page<User> userPage = userRepository.findAll(pageRequest);
+        return userPage
+                .getContent()
+                .stream()
+                .map(GetAllUserMapper::toResponse)
+                .toList();
     }
 
+//  update user
     @Override
     public User updateUser(Long id, UpdateUserDTO updateDTO) {
 
@@ -69,6 +80,8 @@ public class UserServiceImp implements UserService {
         UpdateMapper.updateUserFromDTO(updateDTO, existingUser);
         return userRepository.save(existingUser);
     }
+
+
 
 
 }

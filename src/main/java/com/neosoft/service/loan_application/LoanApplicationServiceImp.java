@@ -13,7 +13,9 @@ import com.neosoft.repository.LoanApplicationRepository;
 import com.neosoft.repository.LoanTypeRepository;
 import com.neosoft.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -60,11 +62,17 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
     }
 
     @Override
-    public List<GetAllLoanAppDTO> getAllLoanApp() {
-        List<LoanApplication> applications = loanApplicationRepository.findAll();
-
-        return GetAllLoanAppMapper.toResponseList(applications);
+    public List<GetAllLoanAppDTO> getAllLoanApp(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc")?Sort.Direction.DESC:Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize,Sort.by(direction,sortBy));
+        Page<LoanApplication> loanApplications = loanApplicationRepository.findAll(pageRequest);
+        return loanApplications
+                .getContent()
+                .stream()
+                .map(GetAllLoanAppMapper::toResponse)
+                .toList();
     }
+
 
     @Override
     public LoanApplication updateLoanApp(Long id, UpdateAppDTO dto) {

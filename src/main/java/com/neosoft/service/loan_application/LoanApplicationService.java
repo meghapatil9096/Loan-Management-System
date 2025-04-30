@@ -14,7 +14,7 @@ public interface LoanApplicationService {
     List<LoanApplication> showStatus(String status);
 
 //    get all loan-app
-    List<GetAllLoanAppDTO> getAllLoanApp();
+    List<GetAllLoanAppDTO> getAllLoanApp(int pageNo, int pageSize, String sortBy, String sortDir);
 
 //    update loan-application with Amount and Status by Admin
     LoanApplication updateLoanApp(Long id, UpdateAppDTO dto);

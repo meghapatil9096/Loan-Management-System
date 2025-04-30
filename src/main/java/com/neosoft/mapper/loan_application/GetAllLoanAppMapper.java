@@ -20,9 +20,5 @@ public class GetAllLoanAppMapper {
         return dto;
     }
 
-    public static List<GetAllLoanAppDTO> toResponseList(List<LoanApplication> applications){
-        return applications.stream()
-                .map(GetAllLoanAppMapper::toResponse)
-                .collect(Collectors.toList());
-    }
+
 }

@@ -33,10 +33,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
     }
 
-//    get all user(admin)
+//  get all user with paging And Sorting
     @GetMapping("/admin/get/all")
-    ResponseEntity<List<GetAllUserDTO>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    ResponseEntity<List<GetAllUserDTO>> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
+                                                    @RequestParam(defaultValue = "3") int pageSize,
+                                                    @RequestParam(defaultValue = "id") String sortBy,
+                                                    @RequestParam(defaultValue = "asc") String sortDir){
+       List<GetAllUserDTO> users = userService.getAllUsers(pageNo,pageSize,sortBy,sortDir);
+       return ResponseEntity.ok(users);
     }
 
 //    update user
@@ -44,5 +48,6 @@ public class UserController {
     ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UpdateUserDTO updateDTO){
         return ResponseEntity.ok(userService.updateUser(id,updateDTO));
     }
+
 
 }

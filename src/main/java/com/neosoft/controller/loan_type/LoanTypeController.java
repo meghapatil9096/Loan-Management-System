@@ -28,10 +28,14 @@ public class LoanTypeController {
         return ResponseEntity.ok(loanTypeService.getByLoanTypeName(name));
     }
 
-//    get all loan-type
+//    get all loan-type with paging and sorting 
     @GetMapping("/get/all")
-    ResponseEntity<List<GetAllLoanTypeDTO>> getAllLoanType(){
-        return ResponseEntity.ok(loanTypeService.getAllLoanType());
+    ResponseEntity<List<GetAllLoanTypeDTO>> getAllLoanType(@RequestParam(defaultValue = "0") int pageNo,
+                                                           @RequestParam(defaultValue = "3") int pageSize,
+                                                           @RequestParam(defaultValue = "id") String sortBy,
+                                                           @RequestParam(defaultValue = "asc") String sortDir){
+        List<GetAllLoanTypeDTO> loanType = loanTypeService.getAllLoanType(pageNo,pageSize,sortBy,sortDir);
+        return ResponseEntity.ok(loanType);
     }
 
 //    update loan-type

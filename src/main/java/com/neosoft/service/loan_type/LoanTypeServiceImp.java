@@ -8,7 +8,9 @@ import com.neosoft.mapper.loan_type.LoanTypeMapper;
 import com.neosoft.mapper.loan_type.UpdateTypeMapper;
 import com.neosoft.repository.LoanTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +18,10 @@ import java.util.List;
 @Service
 public class LoanTypeServiceImp implements LoanTypeService {
 
-    @Autowired
+//    @Autowired
     private LoanTypeRepository loanTypeRepository;
 
-    @Autowired
+//    @Autowired
     private LoanTypeMapper loanTypeMapper;
 
     @Override
@@ -37,10 +39,16 @@ public class LoanTypeServiceImp implements LoanTypeService {
     }
 
     @Override
-    public List<GetAllLoanTypeDTO> getAllLoanType() {
-        List<LoanType> types = loanTypeRepository.findAll();
-        return GetAllLoanTypeMapper.toResponseList(types);
+    public List<GetAllLoanTypeDTO> getAllLoanType(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc")?Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize,Sort.by(direction,sortBy));
+        Page<LoanType> typePage = loanTypeRepository.findAll(pageRequest);
+        return typePage.getContent()
+                .stream()
+                .map(GetAllLoanTypeMapper::toResponse)
+                .toList();
     }
+
 
     @Override
     public LoanType updatetype(Long id, LoanTypeDTO typeDTO) {

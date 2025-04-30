@@ -16,8 +16,8 @@ public interface UserService {
 //    Login Method
     String login(LoginDTO request);
 
-//    Get All User (Admin)
-    List<GetAllUserDTO> getAllUsers();
+//    Get All User (Admin) paging & sorting
+    List<GetAllUserDTO> getAllUsers(int pageNo, int pageSize, String sortBy,String sortDir);
 
 //    update user for customer
     User updateUser(Long id, UpdateUserDTO updateDTO);

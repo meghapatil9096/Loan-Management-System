@@ -29,8 +29,12 @@ public class LoanApplicationController {
     }
 
     @GetMapping("/admin/get/all")
-    public ResponseEntity<List<GetAllLoanAppDTO>> getAllLoans(){
-        return ResponseEntity.ok(loanApplicationService.getAllLoanApp());
+    public ResponseEntity<List<GetAllLoanAppDTO>> getAllLoans(@RequestParam(defaultValue = "0") int pageNo,
+                                                              @RequestParam(defaultValue = "3") int pageSize,
+                                                              @RequestParam(defaultValue = "id") String sortBy,
+                                                              @RequestParam(defaultValue = "desc") String sortDir){
+        List<GetAllLoanAppDTO> loanAppDTOS = loanApplicationService.getAllLoanApp(pageNo,pageSize,sortBy,sortDir);
+        return ResponseEntity.ok(loanAppDTOS);
     }
 
     @PutMapping("/admin/update/{id}")
