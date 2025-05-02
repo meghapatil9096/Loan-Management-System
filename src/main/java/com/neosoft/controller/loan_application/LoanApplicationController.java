@@ -37,9 +37,17 @@ public class LoanApplicationController {
         return ResponseEntity.ok(loanAppDTOS);
     }
 
+//    update by id
     @PutMapping("/admin/update/{id}")
     ResponseEntity<?> updateLoanApp(@PathVariable Long id,@RequestBody @Valid UpdateAppDTO dto){
         LoanApplication updated = loanApplicationService.updateLoanApp(id,dto);
         return ResponseEntity.ok(updated);
+    }
+
+//    delete by id
+    @DeleteMapping("/admin/delete/{id}")
+    ResponseEntity<String> deleteLoanApp(@PathVariable Long id){
+        loanApplicationService.deleteLoanApp(id);
+        return ResponseEntity.ok("Loan-Application With Id "+id+" deleted Successfully.");
     }
 }

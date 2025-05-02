@@ -3,11 +3,14 @@ package com.neosoft.service.loan_type;
 import com.neosoft.dto.loan_type.GetAllLoanTypeDTO;
 import com.neosoft.dto.loan_type.LoanTypeDTO;
 import com.neosoft.entity.LoanType;
+import com.neosoft.exception.UserNotFoundException;
 import com.neosoft.mapper.loan_type.GetAllLoanTypeMapper;
 import com.neosoft.mapper.loan_type.LoanTypeMapper;
 import com.neosoft.mapper.loan_type.UpdateTypeMapper;
 import com.neosoft.repository.LoanTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,13 +19,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LoanTypeServiceImp implements LoanTypeService {
 
-//    @Autowired
-    private LoanTypeRepository loanTypeRepository;
+    //@Autowired
+    private final LoanTypeRepository loanTypeRepository;
 
-//    @Autowired
-    private LoanTypeMapper loanTypeMapper;
+    //@Autowired
+    private final LoanTypeMapper loanTypeMapper;
 
     @Override
     public String createLoanType(LoanTypeDTO loanTypeDTO) {
@@ -58,6 +62,15 @@ public class LoanTypeServiceImp implements LoanTypeService {
         UpdateTypeMapper.updateTypeForDTO(typeDTO,existingLoanType);
 
         return loanTypeRepository.save(existingLoanType);
+    }
+
+    @Override
+    public void deleteLoanType(Long id) {
+        if (!loanTypeRepository.existsById(id))
+        {
+            throw new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND);
+        }
+        loanTypeRepository.deleteLonTypeById(id);
     }
 
 

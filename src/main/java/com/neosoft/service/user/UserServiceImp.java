@@ -11,6 +11,7 @@ import com.neosoft.mapper.user.SignupMapper;
 import com.neosoft.mapper.user.UpdateMapper;
 import com.neosoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,13 +21,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImp implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+    private final  UserRepository userRepository;
 
 //    @Autowired
-    private SignupMapper mapper;
+    private final SignupMapper mapper;
 
 //    signup user
     @Override
@@ -81,7 +83,12 @@ public class UserServiceImp implements UserService {
         return userRepository.save(existingUser);
     }
 
-
-
+    @Override
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)){
+            throw new UserNotFoundException("User with ID "+id+" Not Found.");
+        }
+        userRepository.deleteUserById(id);
+    }
 
 }

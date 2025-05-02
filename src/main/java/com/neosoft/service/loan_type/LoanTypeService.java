@@ -19,4 +19,7 @@ public interface LoanTypeService {
 
 //  update loan-type
     LoanType updatetype(Long id, LoanTypeDTO typeDTO);
+
+//    delete user by id
+    void deleteLoanType(Long id);
 }

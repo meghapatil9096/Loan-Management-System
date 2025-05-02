@@ -7,6 +7,7 @@ import com.neosoft.entity.LoanApplication;
 import com.neosoft.entity.LoanType;
 import com.neosoft.entity.User;
 import com.neosoft.exception.ResourceNotFoundException;
+import com.neosoft.exception.UserNotFoundException;
 import com.neosoft.mapper.loan_application.GetAllLoanAppMapper;
 import com.neosoft.mapper.loan_application.UpdateAppMapper;
 import com.neosoft.repository.LoanApplicationRepository;
@@ -25,13 +26,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LoanApplicationServiceImp implements LoanApplicationService {
 
-   // @Autowired
+//    @Autowired
     private final LoanApplicationRepository loanApplicationRepository;
 
-    //@Autowired
+//    @Autowired
     private final UserRepository userRepository;
 
-    // @Autowired
+//     @Autowired
     private final LoanTypeRepository loanTypeRepository;
 
     @Override
@@ -85,6 +86,15 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
 
         UpdateAppMapper.updateDtoToEntity(dto,application);
         return loanApplicationRepository.save(application);
+    }
+
+    @Override
+    public void deleteLoanApp(Long id) {
+        if (!loanApplicationRepository.existsById(id))
+        {
+            throw new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND);
+        }
+        loanApplicationRepository.deleteLoanAppById(id);
     }
 
 }

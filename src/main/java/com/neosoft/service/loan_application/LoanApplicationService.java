@@ -18,4 +18,7 @@ public interface LoanApplicationService {
 
 //    update loan-application with Amount and Status by Admin
     LoanApplication updateLoanApp(Long id, UpdateAppDTO dto);
+
+//    delete loan-application by id
+    void deleteLoanApp(Long id);
 }

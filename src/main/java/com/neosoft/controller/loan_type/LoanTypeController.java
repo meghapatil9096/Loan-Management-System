@@ -39,9 +39,16 @@ public class LoanTypeController {
     }
 
 //    update loan-type
-    @PutMapping("/update/{id}")
+    @PutMapping("/admin/update/{id}")
     ResponseEntity<LoanType> updatetype(@PathVariable Long id, @RequestBody @Valid LoanTypeDTO typeDTO){
        return ResponseEntity.ok(loanTypeService.updatetype(id,typeDTO));
+    }
+
+//    delete loan-type By id
+    @DeleteMapping("admin/delete/{id}")
+    ResponseEntity<String> deleteLoanType(@PathVariable Long id){
+        loanTypeService.deleteLoanType(id);
+        return ResponseEntity.ok("Loan-Type With Id "+id+" deleted Successfully.");
     }
 
 }
