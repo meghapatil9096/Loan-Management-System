@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserController {
     }
 
 //  get all user with paging And Sorting
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/get/all")
     ResponseEntity<List<GetAllUserDTO>> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
                                                     @RequestParam(defaultValue = "3") int pageSize,

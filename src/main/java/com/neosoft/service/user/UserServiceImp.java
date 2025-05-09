@@ -12,11 +12,13 @@ import com.neosoft.mapper.user.UpdateMapper;
 import com.neosoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+
 
 import java.util.List;
 
@@ -30,16 +32,19 @@ public class UserServiceImp implements UserService {
 //    @Autowired
     private final SignupMapper mapper;
 
+    private final PasswordEncoder passwordEncoder;
+
 //    signup user
     @Override
     public String registerUser(SignupDTO request) {
 //  check if email exists
         if (userRepository.findByEmail(request.getEmail()).isPresent())
         {
-            throw new RuntimeException("");
+            throw new RuntimeException("Email already register");
         }
 
         User user = mapper.sigupRequestDtoToUser(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
         return "User Registered Successfully!";
@@ -52,7 +57,7 @@ public class UserServiceImp implements UserService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND));
             //simple password check
-            if (!user.getPassword().equals(request.getPassword()))
+            if (!passwordEncoder.matches(request.getPassword(),user.getPassword()))
             {
                 throw new IllegalArgumentException("Invalid credential : Incorrect Password!");
             }
