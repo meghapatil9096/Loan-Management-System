@@ -88,6 +88,7 @@ public class UserServiceImp implements UserService {
         return userRepository.save(existingUser);
     }
 
+//    delete user
     @Override
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)){
