@@ -34,7 +34,6 @@ public class UserServiceImp implements UserService {
 //    @Autowired
     private final  UserRepository userRepository;
 
-//    @Autowired
     private final SignupMapper mapper;
 
     private final PasswordEncoder passwordEncoder;
@@ -70,16 +69,6 @@ public class UserServiceImp implements UserService {
         String token = jwtTokenProvider.generateToken(userDetails.getUsername());
 
         return token;
-
-//        User user = userRepository.findByEmail(request.getEmail())
-//                .orElseThrow(() -> new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND));
-//            //simple password check
-//            if (!passwordEncoder.matches(request.getPassword(),user.getPassword()))
-//            {
-//                throw new IllegalArgumentException("Invalid credential : Incorrect Password!");
-//            }
-//                return "Login Successfully!";
-
     }
 
 //    get all user with paging And Sorting

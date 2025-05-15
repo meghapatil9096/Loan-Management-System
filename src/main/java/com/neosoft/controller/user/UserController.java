@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/login")
     ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginDTO request){
         String token = userService.login(request);
-//        return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
         return ResponseEntity.ok(new AuthResponse(token,"Login successful"));
     }
 
