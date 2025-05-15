@@ -1,9 +1,6 @@
 package com.neosoft.controller.user;
 
-import com.neosoft.dto.user.GetAllUserDTO;
-import com.neosoft.dto.user.LoginDTO;
-import com.neosoft.dto.user.SignupDTO;
-import com.neosoft.dto.user.UpdateUserDTO;
+import com.neosoft.dto.user.*;
 import com.neosoft.entity.User;
 import com.neosoft.service.user.UserService;
 import jakarta.validation.Valid;
@@ -30,8 +27,10 @@ public class UserController {
 
 //    login
     @PostMapping("/login")
-    ResponseEntity<String> login(@Valid @RequestBody LoginDTO request){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
+    ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginDTO request){
+        String token = userService.login(request);
+//        return ResponseEntity.status(HttpStatus.OK).body(userService.login(request));
+        return ResponseEntity.ok(new AuthResponse(token,"Login successful"));
     }
 
 //  get all user with paging And Sorting

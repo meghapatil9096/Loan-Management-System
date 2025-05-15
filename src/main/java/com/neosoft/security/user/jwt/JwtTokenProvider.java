@@ -26,17 +26,17 @@ public class JwtTokenProvider {
         return new SecretKeySpec(keyBytes,SignatureAlgorithm.HS512.getJcaName());
     }
 
-//    Generated token
-    public String generateToken(UserDetails userDetails){
+//    Generated JWT token
+    public String generateToken(String username){
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+expiration))
                 .signWith(getSigningKey(),SignatureAlgorithm.HS512)
                 .compact();
     }
 
-//    Get username/email from token
+//    Get username/email from Jwt
     public String getUsernameFromToken(String token){
         return Jwts.parser()
                 .setSigningKey(getSigningKey())
@@ -54,15 +54,16 @@ public class JwtTokenProvider {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
+//    check if token is expired
     private boolean isTokenExpired(String token)
     {
-        Date expiration = Jwts.parser()
+        Date expirationDate = Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();
-        return expiration.before(new Date());
+        return expirationDate.before(new Date());
     }
 
 }

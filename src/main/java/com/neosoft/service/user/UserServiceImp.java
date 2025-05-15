@@ -10,11 +10,16 @@ import com.neosoft.mapper.user.GetAllUserMapper;
 import com.neosoft.mapper.user.SignupMapper;
 import com.neosoft.mapper.user.UpdateMapper;
 import com.neosoft.repository.UserRepository;
+import com.neosoft.security.user.jwt.JwtTokenProvider;
+import com.neosoft.security.user.service.CustomUserDetailsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +38,10 @@ public class UserServiceImp implements UserService {
     private final SignupMapper mapper;
 
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
 //    signup user
     @Override
@@ -54,14 +63,22 @@ public class UserServiceImp implements UserService {
     @Override
     public String login(LoginDTO request) {
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND));
-            //simple password check
-            if (!passwordEncoder.matches(request.getPassword(),user.getPassword()))
-            {
-                throw new IllegalArgumentException("Invalid credential : Incorrect Password!");
-            }
-                return "Login Successfully!";
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
+        );
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+        String token = jwtTokenProvider.generateToken(userDetails.getUsername());
+
+        return token;
+
+//        User user = userRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() -> new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND));
+//            //simple password check
+//            if (!passwordEncoder.matches(request.getPassword(),user.getPassword()))
+//            {
+//                throw new IllegalArgumentException("Invalid credential : Incorrect Password!");
+//            }
+//                return "Login Successfully!";
 
     }
 
