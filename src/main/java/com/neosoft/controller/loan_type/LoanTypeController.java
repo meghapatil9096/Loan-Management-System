@@ -5,19 +5,24 @@ import com.neosoft.dto.loan_type.LoanTypeDTO;
 import com.neosoft.entity.LoanType;
 import com.neosoft.service.loan_type.LoanTypeService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/loan/type")
+@RequiredArgsConstructor
 public class LoanTypeController {
 
-    @Autowired
-    private LoanTypeService loanTypeService;
+//    @Autowired
+    private final LoanTypeService loanTypeService;
+
 //  create loan type
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/save")
     ResponseEntity<String> createLoanType(@Valid @RequestBody LoanTypeDTO request){
         return ResponseEntity.ok(loanTypeService.createLoanType(request));
@@ -39,12 +44,14 @@ public class LoanTypeController {
     }
 
 //    update loan-type
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update/{id}")
     ResponseEntity<LoanType> updatetype(@PathVariable Long id, @RequestBody @Valid LoanTypeDTO typeDTO){
        return ResponseEntity.ok(loanTypeService.updatetype(id,typeDTO));
     }
 
 //    delete loan-type By id
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("admin/delete/{id}")
     ResponseEntity<String> deleteLoanType(@PathVariable Long id){
         loanTypeService.deleteLoanType(id);

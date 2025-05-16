@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/users/signup","/api/users/login","/api/users/delete/**").permitAll()
                         .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/loan/type/get/**").permitAll()
+                        .requestMatchers("/api/loan/type/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session->session

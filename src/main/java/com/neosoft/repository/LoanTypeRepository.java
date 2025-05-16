@@ -16,6 +16,7 @@ public interface LoanTypeRepository extends JpaRepository<LoanType,Long> {
 
     List<LoanType> findByName(String name);
 
+
     @Modifying
     @Transactional
     @Query("DELETE from LoanType l WHERE l.id = :id")
