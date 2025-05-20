@@ -1,6 +1,6 @@
-package com.neosoft.security.user.jwt;
+package com.neosoft.security.jwt;
 
-import com.neosoft.security.user.service.CustomUserDetailsService;
+import com.neosoft.security.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

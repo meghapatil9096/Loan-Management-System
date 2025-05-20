@@ -1,4 +1,4 @@
-package com.neosoft.security.user.jwt;
+package com.neosoft.security.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

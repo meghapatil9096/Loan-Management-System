@@ -1,8 +1,8 @@
-package com.neosoft.security.user.service;
+package com.neosoft.security.service;
 
 import com.neosoft.entity.User;
 import com.neosoft.repository.UserRepository;
-import com.neosoft.security.user.model.CustomerUserDetails;
+import com.neosoft.security.model.CustomerUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

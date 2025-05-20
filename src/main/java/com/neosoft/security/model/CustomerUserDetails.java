@@ -1,4 +1,4 @@
-package com.neosoft.security.user.model;
+package com.neosoft.security.model;
 
 import com.neosoft.entity.User;
 import lombok.AllArgsConstructor;
