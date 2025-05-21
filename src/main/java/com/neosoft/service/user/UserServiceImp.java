@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,9 +65,8 @@ public class UserServiceImp implements UserService {
 //                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
 //        );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        String token = jwtTokenProvider.generateToken(userDetails);
 
-        return token;
+        return jwtTokenProvider.generateToken(userDetails);
     }
 
 //    get all user with paging And Sorting
