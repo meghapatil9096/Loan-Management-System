@@ -62,11 +62,11 @@ public class UserServiceImp implements UserService {
     @Override
     public String login(LoginDTO request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-        );
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
+//        );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        String token = jwtTokenProvider.generateToken(userDetails.getUsername());
+        String token = jwtTokenProvider.generateToken(userDetails);
 
         return token;
     }
