@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +56,11 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
         loanApplicationRepository.save(loanApplication);
 
         return "Loan Application submitted successfully! ";
+    }
+
+    @Override
+    public List<LoanApplication> getById(Long user_id) {
+        return loanApplicationRepository.findByUserId(user_id);
     }
 
     @Override

@@ -8,9 +8,11 @@ import com.neosoft.service.loan_application.LoanApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/loan/application")
@@ -18,16 +20,26 @@ public class LoanApplicationController {
     @Autowired
     private LoanApplicationService loanApplicationService;
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/customer/apply")
     ResponseEntity<String> applyLoan(@Valid @RequestBody ApplyLoanDTO request){
         return ResponseEntity.ok(loanApplicationService.applyLoan(request));
     }
 
+    //    get by id
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/customer/{user_id}")
+    ResponseEntity<List<LoanApplication>> getById(@PathVariable Long user_id){
+        return ResponseEntity.ok(loanApplicationService.getById(user_id));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/status/{status}")
     public  ResponseEntity<List<LoanApplication>> showStatus(@PathVariable String status){
         return ResponseEntity.ok(loanApplicationService.showStatus(status.toUpperCase()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/get/all")
     public ResponseEntity<List<GetAllLoanAppDTO>> getAllLoans(@RequestParam(defaultValue = "0") int pageNo,
                                                               @RequestParam(defaultValue = "3") int pageSize,
@@ -38,6 +50,7 @@ public class LoanApplicationController {
     }
 
 //    update by id
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update/{id}")
     ResponseEntity<?> updateLoanApp(@PathVariable Long id,@RequestBody @Valid UpdateAppDTO dto){
         LoanApplication updated = loanApplicationService.updateLoanApp(id,dto);
@@ -45,6 +58,7 @@ public class LoanApplicationController {
     }
 
 //    delete by id
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     ResponseEntity<String> deleteLoanApp(@PathVariable Long id){
         loanApplicationService.deleteLoanApp(id);

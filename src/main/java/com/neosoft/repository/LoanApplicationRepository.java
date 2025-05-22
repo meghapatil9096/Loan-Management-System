@@ -14,6 +14,7 @@ import java.util.List;
 public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
     List<LoanApplication> findByStatus(LoanApplication.Status status);
 
+    List<LoanApplication> findByUserId(Long userId);
     @Modifying
     @Transactional
     @Query("DELETE from LoanApplication a where a.id = :id")
