@@ -30,10 +30,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/users/signup","/api/users/login","/api/users/delete/**").permitAll()
-                        .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+                // User Table
+                        .requestMatchers("/api/users/signup","/api/users/login").permitAll()
+                        .requestMatchers("/api/users/admin/**","/api/users/delete/**").hasRole("ADMIN")
+                //Loan-type
                         .requestMatchers("/api/loan/type/get/**").permitAll()
                         .requestMatchers("/api/loan/type/admin/**").hasRole("ADMIN")
+                //Loan-Application
+                        .requestMatchers("/api/loan/application/customer/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/loan/application/status/**","/api/loan/application/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session->session

@@ -43,8 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication()==null){
+//            DB call
 //            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+//            Token Validation
             if (jwtTokenProvider.validateToken(token,email)){
                 var authorities = jwtTokenProvider.getAuthoritiesFromToken(token);  //get roles
 
@@ -55,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
+//                filter Authentication setup
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
