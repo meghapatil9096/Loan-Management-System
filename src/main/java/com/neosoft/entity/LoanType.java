@@ -1,5 +1,6 @@
 package com.neosoft.entity;
 
+import com.neosoft.auditing.entity.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -8,7 +9,7 @@ import lombok.ToString;
 @Table(name = "loan-type")
 @Data
 @ToString
-public class LoanType<S> {
+public class LoanType extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

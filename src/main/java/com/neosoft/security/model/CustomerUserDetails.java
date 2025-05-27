@@ -29,7 +29,7 @@ public class CustomerUserDetails implements UserDetails {
         return user.getEmail();
     }
 
-//    all this above method is manually write
+//    all this above method is manually written
     @Override
     public boolean isAccountNonExpired(){
         return true;

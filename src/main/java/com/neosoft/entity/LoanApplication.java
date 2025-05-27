@@ -1,5 +1,6 @@
 package com.neosoft.entity;
 
+import com.neosoft.auditing.entity.Auditable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "loan-application")
 @Data
 @ToString
-public class LoanApplication {
+public class LoanApplication extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
