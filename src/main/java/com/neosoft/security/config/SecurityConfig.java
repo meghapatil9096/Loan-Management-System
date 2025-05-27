@@ -31,10 +31,11 @@ public class SecurityConfig {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth->auth
                 // User Table
-                        .requestMatchers("/api/users/signup","/api/users/login").permitAll()
-                        .requestMatchers("/api/users/admin/**","/api/users/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/signup","/api/users/login","/actuator/**").permitAll()
+                        .requestMatchers("/api/users/update/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
                 //Loan-type
-                        .requestMatchers("/api/loan/type/get/**").permitAll()
+                        .requestMatchers("/api/loan/type/get/**").hasAnyRole("ADMIN","CUSTOMER")
                         .requestMatchers("/api/loan/type/admin/**").hasRole("ADMIN")
                 //Loan-Application
                         .requestMatchers("/api/loan/application/customer/**").hasRole("CUSTOMER")

@@ -17,11 +17,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 
 import java.util.List;
@@ -86,10 +88,27 @@ public class UserServiceImp implements UserService {
     @Override
     public User updateUser(Long id, UpdateUserDTO updateDTO) {
 
+//        Get the currently authenticated user's email
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInEmail = auth.getName();  //this is email
+
+//        find the Logged-in user from the repository
+        User loggedInUser = userRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("Logged in user found"));
+
+//        check if the logged-in user is trying to update their own data
+        if (!loggedInUser.getId().equals(id)){
+            throw new AccessDeniedException("You are not allowed to update other user's data.");
+        }
+
+//        find the user to update
         User existingUser = userRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id:"+ id));
+//        update field using mapper
         UpdateMapper.updateUserFromDTO(updateDTO, existingUser);
+//        save and return the updated user
         return userRepository.save(existingUser);
+
     }
 
 //    delete user

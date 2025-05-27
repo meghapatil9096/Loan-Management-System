@@ -44,6 +44,7 @@ public class UserController {
     }
 
 //    update user
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PutMapping("/update/{id}")
     ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UpdateUserDTO updateDTO){
         return ResponseEntity.ok(userService.updateUser(id,updateDTO));
@@ -51,7 +52,7 @@ public class UserController {
 
 //    delete user with id
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/admin/delete/{id}")
     ResponseEntity<String> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok("User With Id "+id+" deleted Successfully.");
