@@ -88,25 +88,25 @@ public class UserServiceImp implements UserService {
     @Override
     public User updateUser(Long id, UpdateUserDTO updateDTO) {
 
-//        Get the currently authenticated user's email
+        // Get the currently authenticated user's email
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedInEmail = auth.getName();  //this is email
 
-//        find the Logged-in user from the repository
+        // find the Logged-in user from the repository
         User loggedInUser = userRepository.findByEmail(loggedInEmail)
                 .orElseThrow(() -> new RuntimeException("Logged in user found"));
 
-//        check if the logged-in user is trying to update their own data
+       // check if the logged-in user is trying to update their own data
         if (!loggedInUser.getId().equals(id)){
             throw new AccessDeniedException("You are not allowed to update other user's data.");
         }
 
-//        find the user to update
+       // find the user to update
         User existingUser = userRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id:"+ id));
-//        update field using mapper
+       // update field using mapper
         UpdateMapper.updateUserFromDTO(updateDTO, existingUser);
-//        save and return the updated user
+       // save and return the updated user
         return userRepository.save(existingUser);
 
     }
