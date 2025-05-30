@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +38,9 @@ public class UserServiceImp implements UserService {
 
     private final SignupMapper mapper;
 
+
     private final PasswordEncoder passwordEncoder;
+
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -63,9 +66,9 @@ public class UserServiceImp implements UserService {
     @Override
     public String login(LoginDTO request) {
 
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-//        );
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
+        );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
 
         return jwtTokenProvider.generateToken(userDetails);
@@ -94,7 +97,7 @@ public class UserServiceImp implements UserService {
 
         // find the Logged-in user from the repository
         User loggedInUser = userRepository.findByEmail(loggedInEmail)
-                .orElseThrow(() -> new RuntimeException("Logged in user found"));
+                .orElseThrow(() -> new RuntimeException("Logged in user not found"));
 
        // check if the logged-in user is trying to update their own data
         if (!loggedInUser.getId().equals(id)){
