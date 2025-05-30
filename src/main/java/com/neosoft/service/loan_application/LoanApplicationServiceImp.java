@@ -96,6 +96,7 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
 
     @Override
     public void deleteLoanApp(Long id) {
+//        log.info)"Entered methd {} wth args: {}"
         if (!loanApplicationRepository.existsById(id))
         {
             throw new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND);

@@ -4,6 +4,7 @@ import com.neosoft.auditing.entity.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "users")
