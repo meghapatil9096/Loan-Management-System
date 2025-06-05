@@ -1,12 +1,16 @@
 package com.neosoft.aspect;
 
+import com.neosoft.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class LoggingAspect {
 
 //    pointcut for all service methods
@@ -36,4 +40,5 @@ public class LoggingAspect {
     public void logAfterThrowing(JoinPoint joinPoint, Exception e){
         log.error("Method {} threw exception: {}", joinPoint.getSignature(), e.getMessage());
     }
+
 }

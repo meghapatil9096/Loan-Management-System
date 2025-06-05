@@ -55,6 +55,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
+                Long userId = jwtTokenProvider.getUserIdToken(token);
+                request.setAttribute("userId",userId);
+
 //                filter Authentication setup
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

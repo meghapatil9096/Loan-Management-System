@@ -1,5 +1,6 @@
 package com.neosoft.security.jwt;
 
+import com.neosoft.security.model.CustomerUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,13 +48,20 @@ public class JwtTokenProvider {
     public String generateToken(UserDetails userDetails)
     {
         String email = userDetails.getUsername();   //assuming email is the username
+
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
+        Long userId = null;
+        if (userDetails instanceof CustomerUserDetails){
+            userId = ((CustomerUserDetails) userDetails).getUser().getId();
+        }
+
         return Jwts.builder()
                 .claim("email",email)   //add email as a claim
                 .claim("roles",roles)   //add role as a claim
+                .claim("user_id",userId)    // add user_id
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
@@ -117,6 +125,15 @@ public class JwtTokenProvider {
                 .getBody()
                 .getExpiration();
         return expirationDate.before(new Date());
+    }
+
+    public Long getUserIdToken(String token){
+        return Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("user_id",Long.class);
     }
 
 }

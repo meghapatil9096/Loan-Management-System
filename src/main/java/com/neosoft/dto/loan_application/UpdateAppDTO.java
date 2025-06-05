@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class UpdateAppDTO {
+    @NotNull(message = "loantype id is required")
+    private Long loanTypeId;
 
     @NotNull(message = "Amount is required")
     private Double amount;

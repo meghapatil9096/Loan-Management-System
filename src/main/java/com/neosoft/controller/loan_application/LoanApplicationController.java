@@ -5,6 +5,7 @@ import com.neosoft.dto.loan_application.GetAllLoanAppDTO;
 import com.neosoft.dto.loan_application.UpdateAppDTO;
 import com.neosoft.entity.LoanApplication;
 import com.neosoft.service.loan_application.LoanApplicationService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,12 @@ public class LoanApplicationController {
     //    get by id
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/customer/{user_id}")
-    ResponseEntity<List<LoanApplication>> getById(@PathVariable Long user_id){
+    ResponseEntity<List<LoanApplication>> getById(@PathVariable Long user_id, HttpServletRequest request){
+
+        Long tokenUserId = (Long) request.getAttribute("userId");
+        if (!tokenUserId.equals(user_id)){
+            return ResponseEntity.status(403).build();
+        }
         return ResponseEntity.ok(loanApplicationService.getById(user_id));
     }
 

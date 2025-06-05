@@ -38,7 +38,6 @@ public class UserServiceImp implements UserService {
 
     private final SignupMapper mapper;
 
-
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
@@ -109,6 +108,12 @@ public class UserServiceImp implements UserService {
                 .orElseThrow(()-> new EntityNotFoundException("User not found with id:"+ id));
        // update field using mapper
         UpdateMapper.updateUserFromDTO(updateDTO, existingUser);
+//      Encrypt password if updatedDTO contain password and it's different
+        if(updateDTO.getPassword() != null && !updateDTO.getPassword().isBlank()){
+           String encodedPassword = passwordEncoder.encode(updateDTO.getPassword());
+           existingUser.setPassword(encodedPassword);
+        }
+
        // save and return the updated user
         return userRepository.save(existingUser);
 

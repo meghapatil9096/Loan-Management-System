@@ -29,11 +29,7 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
 
 //    @Autowired
     private final LoanApplicationRepository loanApplicationRepository;
-
-//    @Autowired
     private final UserRepository userRepository;
-
-//     @Autowired
     private final LoanTypeRepository loanTypeRepository;
 
     @Override
@@ -86,17 +82,32 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
         LoanApplication application = loanApplicationRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Loan-App is not found with Id: "+id));
 
+//        check if the status is PENDING
         if (!LoanApplication.Status.PENDING.equals(application.getStatus())){
             throw new IllegalStateException("Only PENDING application can be updated.");
         }
+        //if a new LoanTypeId is provided, update the LoanType
+        if (dto.getLoanTypeId()!=null){
+           LoanType newLoanType = loanTypeRepository.findById(dto.getLoanTypeId())
+                   .orElseThrow(()->new ResourceNotFoundException("Loan Type not found with id: "+ dto.getLoanTypeId()));
+            application.setLoanType(newLoanType);
+        }
+        //update other field like amount
+        if (dto.getAmount()!=null){
+            application.setAmount(dto.getAmount());
+        }
+//        update status if provided and valid
+        if(dto.getStatus()!=null){
+           application.setStatus(dto.getStatus());
+        }
 
-        UpdateAppMapper.updateDtoToEntity(dto,application);
+//        UpdateAppMapper.updateDtoToEntity(dto,application);
         return loanApplicationRepository.save(application);
     }
 
     @Override
     public void deleteLoanApp(Long id) {
-//        log.info)"Entered methd {} wth args: {}"
+//        log.info)"Entered method {} wth args: {}"
         if (!loanApplicationRepository.existsById(id))
         {
             throw new UserNotFoundException(UserNotFoundException.USER_NOT_FOUND);
