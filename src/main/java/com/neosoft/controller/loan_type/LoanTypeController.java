@@ -21,13 +21,12 @@ public class LoanTypeController {
 //    @Autowired
     private final LoanTypeService loanTypeService;
 
-//  create loan type
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/save")
     ResponseEntity<String> createLoanType(@Valid @RequestBody LoanTypeDTO request){
         return ResponseEntity.ok(loanTypeService.createLoanType(request));
     }
-// get loan-type by name
+
     @GetMapping("/get/{name}")
     ResponseEntity<List<LoanType>> FindByLoanTypeName(@PathVariable String name){
         return ResponseEntity.ok(loanTypeService.getByLoanTypeName(name));
@@ -43,14 +42,12 @@ public class LoanTypeController {
         return ResponseEntity.ok(loanType);
     }
 
-//    update loan-type
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update/{id}")
     ResponseEntity<LoanType> updatetype(@PathVariable Long id, @RequestBody @Valid LoanTypeDTO typeDTO){
        return ResponseEntity.ok(loanTypeService.updatetype(id,typeDTO));
     }
 
-//    delete loan-type By id
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("admin/delete/{id}")
     ResponseEntity<String> deleteLoanType(@PathVariable Long id){

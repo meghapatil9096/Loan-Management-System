@@ -27,7 +27,6 @@ public class LoanApplicationController {
         return ResponseEntity.ok(loanApplicationService.applyLoan(request));
     }
 
-    //    get by id
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/customer/{user_id}")
     ResponseEntity<List<LoanApplication>> getById(@PathVariable Long user_id, HttpServletRequest request){
@@ -55,7 +54,6 @@ public class LoanApplicationController {
         return ResponseEntity.ok(loanAppDTOS);
     }
 
-//    update by id
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update/{id}")
     ResponseEntity<?> updateLoanApp(@PathVariable Long id,@RequestBody @Valid UpdateAppDTO dto){
@@ -63,7 +61,6 @@ public class LoanApplicationController {
         return ResponseEntity.ok(updated);
     }
 
-//    delete by id
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     ResponseEntity<String> deleteLoanApp(@PathVariable Long id){

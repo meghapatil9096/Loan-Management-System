@@ -19,13 +19,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//  create
     @PostMapping("/signup")
     ResponseEntity<String> registerUser(@Valid @RequestBody SignupDTO request){
         return ResponseEntity.ok(userService.registerUser(request));
     }
 
-//    login
     @PostMapping("/login")
     ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginDTO request){
         String token = userService.login(request);
@@ -43,14 +41,12 @@ public class UserController {
        return ResponseEntity.ok(users);
     }
 
-//    update user
     @PreAuthorize("hasRole('CUSTOMER')")
     @PutMapping("/update/{id}")
     ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UpdateUserDTO updateDTO){
         return ResponseEntity.ok(userService.updateUser(id,updateDTO));
     }
 
-//    delete user with id
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     ResponseEntity<String> deleteUser(@PathVariable Long id){
